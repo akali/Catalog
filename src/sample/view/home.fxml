@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.controller.HomeController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <AnchorPane layoutY="67.0" prefHeight="335.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
+            <children>
+                <TableView fx:id="tableView"/>
+            </children>
+        </AnchorPane>
+
+        <Label layoutX="169.0" text="NETFLIX" textFill="RED">
+            <font>
+                <Font name="Agency FB" size="55.0"/>
+            </font>
+        </Label>
+
+        <!--        <AnchorPane prefHeight="60" prefWidth="60">-->
+        <!--            <ImageView fx:id="imageView"/>-->
+        <!--        </AnchorPane>-->
+    </children>
+</AnchorPane>

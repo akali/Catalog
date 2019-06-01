@@ -1,6 +1,7 @@
 package sample.model;
 
 public class User {
+    private long id;
     private String name, surname, email, country, contact;
     private String login, password;
 
@@ -22,6 +23,19 @@ public class User {
         this.contact = contact;
         this.login = login;
         this.password = password;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return login;
     }
 
     public String getName() {

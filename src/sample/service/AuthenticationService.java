@@ -105,4 +105,32 @@ public class AuthenticationService {
         connection.close();
         return false;
     }
+
+    public User getUser(long id) throws SQLException, ClassNotFoundException {
+        Connection connection = databaseService.getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "select id, name, surname, email, country, contact, login from user where id = ?;"
+        );
+
+        statement.setLong(1, id);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            User user = new User();
+            user.setId(resultSet.getInt(1));
+            user.setName(resultSet.getString(2));
+            user.setSurname(resultSet.getString(3));
+            user.setEmail(resultSet.getString(4));
+            user.setCountry(resultSet.getString(5));
+            user.setContact(resultSet.getString(6));
+            user.setLogin(resultSet.getString(7));
+            return user;
+        }
+
+        statement.close();
+        connection.close();
+
+        return null;
+    }
 }

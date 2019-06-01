@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import sample.model.User;
 import sample.service.AuthenticationService;
 
@@ -56,5 +58,6 @@ public class RegisterController extends CommonController {
         loginField.setText("akali");
         nameTextField.setText("Aisultan");
         lastNameTextField.setText("Kali");
+//        imageView.setImage(new Image("https://upload.wikimedia.org/wikipedia/ru/thumb/7/7c/Catch_Me_if_You_Can_%282002%29.jpg/211px-Catch_Me_if_You_Can_%282002%29.jpg"));
     }
 }

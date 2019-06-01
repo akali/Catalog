@@ -17,7 +17,7 @@ public class SceneStorage {
     private SceneStorage() {
         this.urls = new HashMap<>() {{
             put("login", Main.class.getResource("view/sample.fxml"));
-            put("home", Main.class.getResource("view/sample.fxml"));
+            put("home", Main.class.getResource("view/home.fxml"));
             put("register", Main.class.getResource("view/register.fxml"));
         }};
     }
