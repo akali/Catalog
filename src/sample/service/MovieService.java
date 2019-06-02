@@ -84,4 +84,23 @@ public class MovieService {
 
         return list;
     }
+
+    public void saveMovie(Movie movie) throws SQLException, ClassNotFoundException {
+        Connection connection = databaseService.getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "insert into movie(name, description, country, director, year, imageUrl, author)" +
+                        "values (?, ?, ?, ?, ?, ?, ?)"
+        );
+        statement.setString(1, movie.getName());
+        statement.setString(2, movie.getDescription());
+        statement.setString(3, movie.getCountry());
+        statement.setString(4, movie.getDirector());
+        statement.setInt(5, movie.getYear());
+        statement.setString(6, movie.getImageUrl());
+        statement.setLong(7, movie.getAuthor().getId());
+
+        statement.execute();
+        statement.close();
+        connection.close();
+    }
 }

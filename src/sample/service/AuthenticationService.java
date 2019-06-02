@@ -9,6 +9,7 @@ public class AuthenticationService {
     private boolean authenticated;
     private String login;
     private DatabaseService databaseService = DatabaseService.getInstance();
+    private User user;
 
     public static AuthenticationService getInstance() {
         return ourInstance;
@@ -23,9 +24,14 @@ public class AuthenticationService {
     }
 
     public boolean authenticate(String login, String password) throws SQLException, ClassNotFoundException {
-        if (hasUserWithPassword(login, password)) {
+        long id;
+        if ((id = hasUserWithPassword(login, password)) != 0) {
             this.login = login;
             this.authenticated = true;
+            this.user = getUser(id);
+
+            System.out.println(this.user + "" + this.user.getId());
+
             return true;
         }
         return false;
@@ -85,25 +91,26 @@ public class AuthenticationService {
         return false;
     }
 
-    private boolean hasUserWithPassword(String login, String password) throws SQLException, ClassNotFoundException {
+    private long hasUserWithPassword(String login, String password) throws SQLException, ClassNotFoundException {
         password = Hasher.hash(password);
         Connection connection = databaseService.getConnection();
         PreparedStatement statement = connection.prepareStatement(
-                "select count(*) from user where login=? and password=?"
+                "select id from user where login=? and password=?"
         );
         statement.setString(1, login);
         statement.setString(2, password);
 
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            if (resultSet.getInt(1) != 0) {
-                return true;
+            long id = resultSet.getInt(1);
+            if (id != 0) {
+                return id;
             }
         }
 
         statement.close();
         connection.close();
-        return false;
+        return 0;
     }
 
     public User getUser(long id) throws SQLException, ClassNotFoundException {
@@ -132,5 +139,9 @@ public class AuthenticationService {
         connection.close();
 
         return null;
+    }
+
+    public User getCurrentUser() {
+        return this.user;
     }
 }

@@ -49,10 +49,14 @@ public class SceneStorage {
             put("login", Main.class.getResource("view/sample.fxml"));
             put("home", Main.class.getResource("view/home.fxml"));
             put("register", Main.class.getResource("view/register.fxml"));
+            put("add", Main.class.getResource("view/add.fxml"));
+            put("detail", Main.class.getResource("view/detail.fxml"));
         }};
         this.sizes = new HashMap<>() {{
             put("login", new Size(600, 400));
             put("register", new Size(600, 400));
+            put("add", new Size(600, 400));
+            put("detail", new Size(600, 400));
             put("home", new Size(1000, 600));
         }};
     }
