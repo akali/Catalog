@@ -1,20 +1,24 @@
 package sample.controller;
 
+import com.mysql.jdbc.StringUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import sample.model.Movie;
 import sample.service.MovieService;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeController extends CommonController {
     public TableView<Movie> tableView;
+    public TextField searchTextField;
+    public Button searchButton;
 
     private MovieService movieService = MovieService.getInstance();
     private ObservableList<Movie> movieObservableList = FXCollections.observableArrayList();
@@ -33,15 +37,40 @@ public class HomeController extends CommonController {
         tableView.getColumns().add(nameColumn);
         tableView.getColumns().add(directorColumn);
         tableView.getColumns().add(authorColumn);
-//        Thread t = new Thread(() -> {
+
+        movieObservableList.addAll(fetchAllMovies());
+
+        tableView.setItems(movieObservableList);
+
+        searchButton.setOnAction(actionEvent -> {
             try {
-                List<Movie> movies = movieService.getAllMovies();
-                movieObservableList.addAll(movies);
+                onSearchButtonClick();
             } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-//        });
-//        t.start();
-        tableView.setItems(movieObservableList);
+        });
+    }
+
+    private List<Movie> fetchAllMovies() {
+        try {
+            List<Movie> movies = movieService.getAllMovies();
+            return movies;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    private void onSearchButtonClick() throws SQLException, ClassNotFoundException {
+        String query = searchTextField.getText();
+        if (StringUtils.isNullOrEmpty(query)) {
+            movieObservableList.clear();
+            movieObservableList.addAll(fetchAllMovies());
+            return;
+        }
+
+        List<Movie> moviesByQuery = movieService.getMoviesByQuery(query);
+        movieObservableList.clear();
+        movieObservableList.addAll(moviesByQuery);
     }
 }

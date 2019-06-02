@@ -29,6 +29,41 @@ public class MovieService {
                 connection.prepareStatement(
                         "select name, description, country, director, year, imageUrl, author from movie"
                 );
+        return getMoviesFromStatement(statement);
+    }
+
+    public List<Movie> getMoviesByQuery(String query) throws SQLException, ClassNotFoundException {
+        Connection connection = databaseService.getConnection();
+        PreparedStatement statement =
+                connection.prepareStatement(
+                        "select name, " +
+                                "description, " +
+                                "country, " +
+                                "director, " +
+                                "year, " +
+                                "imageUrl, " +
+                                "author " +
+                            "from " +
+                                "movie" +
+                            " where " +
+                                "name like ? " +
+                                "or " +
+                                "description like ? or " +
+                                "country like ? or " +
+                                "director like ? or " +
+                                "convert(year, char) like ? or " +
+                                "author like ?"
+                );
+
+        for (int i = 1; i <= 6; ++i)
+            statement.setString(i, "%" + query + "%");
+
+        System.out.println(statement.toString());
+
+        return getMoviesFromStatement(statement);
+    }
+
+    private List<Movie> getMoviesFromStatement(PreparedStatement statement) throws SQLException, ClassNotFoundException {
         List<Movie> list = new ArrayList<>();
 
         ResultSet resultSet = statement.executeQuery();

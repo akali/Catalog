@@ -29,7 +29,9 @@ public class CommonController {
             CommonController controller = loader.getController();
             controller.setStage(getStage());
 
-            Scene scene = new Scene(root, 600, 400);
+            SceneStorage.Size sizes = storage.getSizes(sceneName);
+
+            Scene scene = new Scene(root, sizes.getWidth(), sizes.getHeight());
             getStage().setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
